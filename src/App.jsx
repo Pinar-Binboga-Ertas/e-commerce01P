@@ -1,20 +1,28 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Routes, Route } from "react-router-dom";
+import MainLayout from "./layout/MainLayout";
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import Cart from "./pages/Cart";
+import NotFound from "./pages/NotFound";
 
 function App() {
-  const count = useSelector((state) => state.count);
-  const dispatch = useDispatch();
-
   return (
-    <div className="p-5">
-      <h1 className="text-2xl font-bold mb-4">Count: {count}</h1>
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-        onClick={() => dispatch({ type: "INCREMENT" })}
-      >
-        Increment
-      </button>
-    </div>
+    <>
+      {/* Toast bildirimleri için */}
+      <ToastContainer />
+
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/cart" element={<Cart />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 }
 

@@ -1,9 +1,9 @@
-import { createStore, applyMiddleware } from "redux";
-import { default as thunk } from 'redux-thunk';
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import thunk from "redux-thunk";
 
-// Basit reducer
+// Mevcut counter reducer
 const initialState = { count: 0 };
-function reducer(state = initialState, action) {
+function counterReducer(state = initialState, action) {
   switch (action.type) {
     case "INCREMENT":
       return { ...state, count: state.count + 1 };
@@ -12,6 +12,23 @@ function reducer(state = initialState, action) {
   }
 }
 
+// Yeni cart reducer
+const initialCart = { items: [] };
+function cartReducer(state = initialCart, action) {
+  switch (action.type) {
+    case "ADD_TO_CART":
+      return { ...state, items: [...state.items, action.payload] };
+    default:
+      return state;
+  }
+}
+
+// Combine reducers
+const rootReducer = combineReducers({
+  counter: counterReducer,
+  cart: cartReducer,
+});
+
 // Store oluştur
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk));
 export default store;
